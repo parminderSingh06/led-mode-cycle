@@ -1,0 +1,33 @@
+# Build directories
+/build/
+/Debug/
+/Release/
+/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# STM32 generated outputs
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# Object files
+*.o
+*.obj
+
+# Assembly outputs
+*.s
+*.asm
+
+# Libraries
+*.a
+*.lib
+
+# Logs
+*.log
+
+# VS Code settings (keep if you want per-user only)
+.vscode/
