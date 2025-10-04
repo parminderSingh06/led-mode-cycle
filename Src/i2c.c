@@ -15,10 +15,8 @@
 #define SR1_RXNE    (1U<<6)
 #define SR1_BTF     (1U<<2)
 
-/*
- * PB8 ---- SCL
- * PB9 ----- SDA
- * */
+//PB8 ---- SCL
+//PB9 ----- SDA
 
 void i2c_init(void){
     
