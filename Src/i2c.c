@@ -60,3 +60,12 @@ void i2c_init(void){
 
     I2C1->CR1 |= (1U<<0);
 }
+
+void i2c_read_byte(void){
+    while (I2C1->SR1 & (SR2_BUSY)){}
+
+    I2C1->CR1 |= CR1_START;
+    
+    while(!(I2C1->SR1 & (SR1_SB))){}
+
+}
