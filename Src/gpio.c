@@ -16,7 +16,7 @@ void dht11_send_start_signal(void){
     delay_ms(18);
     GPIOC->ODR |= (1u<<8);
     delay_us(30);
-    gpio_switch2_input_mode();
+    GPIOC->MODER &= ~(3u<<16);   
 }
 
 uint8_t dht11_wait_for_response(void){
@@ -30,20 +30,16 @@ uint8_t dht11_wait_for_response(void){
         if(TIM2->CNT > 200) return 2;
     }
 
-    uint32_t low_time = TIM2->CNT;
+    //uint32_t low_time = TIM2->CNT;
 
     TIM2->CNT = 0;
     while(GPIOC->IDR & (1u<<8)){
         if(TIM2->CNT > 200) return 3;
     }
 
-    uint32_t high_time = TIM2->CNT;
+    //uint32_t high_time = TIM2->CNT;
 
     return 0;
-}
-
-static void gpio_switch2_input_mode(void){
-    GPIOC->MODER &= ~(3u<<16);   
 }
 
 static uint8_t dht11_read_data_bit(void){

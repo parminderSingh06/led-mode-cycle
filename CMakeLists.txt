@@ -52,13 +52,17 @@ set (PROJECT_SOURCES
 	Src/main.c
 	Src/syscalls.c
 	Src/sysmem.c
-
-
+	Src/gpio.c
+	Src/i2c.c
+	Src/systick.c
+	Src/tim2.c
+	Src/uart.c
+	
 	)
 
 set (PROJECT_DEFINES
 	# LIST COMPILER DEFINITIONS HERE
-
+		STM32f411xE
     )
 
 set (PROJECT_INCLUDES
@@ -82,7 +86,7 @@ if (${PROJECT_TYPE} MATCHES ${PROJECT_TYPE_EXECUTABLE})
 elseif (${PROJECT_TYPE} MATCHES ${PROJECT_TYPE_STATIC_LIBRARY})
   add_library(${PROJECT_NAME} ${PROJECT_SOURCES})
 endif()
-
+target_compile_definitions(${PROJECT_NAME} PRIVATE STM32F411xE)
 add_compile_definitions (${PROJECT_DEFINES})
 include_directories (${PROJECT_INCLUDES})
 
