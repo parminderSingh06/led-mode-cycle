@@ -68,7 +68,35 @@ static uint8_t dht11_read_data_bit(void){
     }
 }
 
+static uint8_t dht11_read_byte(void){
+    uint8_t byte_value = 0;
 
+    for(uint32_t i=0; i<8; i++){
+        uint8_t bit = dht11_read_data_bit();
 
+        if(bit != 1 && bit != 0){
+            return 6;
+        }
 
+        byte_value = (byte_value << 1) | bit;
+    }
 
+    return byte_value;
+}
+
+uint8_t dht11_read_data(uint8_t *data){
+    for(int i=0; i<5; i++){
+        data[i] = dht11_read_byte();
+        if(data[i] == 6) return 7; 
+    }
+
+    uint8_t checksum = data[0] + data[1] + data[2] + data[3];
+    checksum &= 0xFF;
+
+    if(checksum == data[4]){
+        return 0;
+    }
+    else{
+        return 8;
+    }
+}
