@@ -23,14 +23,14 @@ int main(void){
         uint8_t result = dht11_read_data(data);
 
         if(result == 0){
-            printf("Humidity: %d.%d %%  Temp: %d.%d °C\n",
+            printf("Humidity: %d.%d %%  Temp: %d.%d C\r\n",
                 data[0], data[1], data[2], data[3]);
         }
         else{
             printf("Data error: %d\n", result);
         }
 
-        delay_ms(2000);
+        delay_ms(1500);
         
     }
 }

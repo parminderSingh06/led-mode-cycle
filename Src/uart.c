@@ -28,7 +28,7 @@ void uart_init(void){
 
     RCC->APB1ENR |= UART2EN;
 
-    uart_set_baudrate(SYS_FREQ, DBG_UART_BAUDRATE);
+    uart_set_baudrate(SystemCoreClock, DBG_UART_BAUDRATE);
 
     USART2->CR1 |= CR1_TE;
     USART2->CR1 |= CR1_UE;

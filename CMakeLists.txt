@@ -57,7 +57,7 @@ set (PROJECT_SOURCES
 	Src/systick.c
 	Src/tim2.c
 	Src/uart.c
-	
+	chip_headers/CMSIS/Clock/system_stm32f4xx.c
 	)
 
 set (PROJECT_DEFINES
@@ -70,6 +70,7 @@ set (PROJECT_INCLUDES
 		Inc
 		chip_headers/CMSIS/Include 	
 		chip_headers/CMSIS/Device/ST/STM32F4xx/Include
+		chip_headers/CMSIS/Clock
     )
 
 ############ MODIFY ACCORDING TO REQUIREMENTS) ########################

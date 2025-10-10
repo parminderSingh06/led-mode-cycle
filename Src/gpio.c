@@ -6,12 +6,11 @@ void gpio_init(void){
     RCC->AHB1ENR |= (1u<<2);
 
     GPIOC->ODR |= (1u<<8);
-
-    GPIOC->MODER &= ~(3u<<16);
-    GPIOC->MODER |= (1u<<16);
 }
 
 void dht11_send_start_signal(void){
+    GPIOC->MODER &= ~(3u<<16);
+    GPIOC->MODER |=  (1u<<16);
     GPIOC->ODR &= ~(1u<<8);
     delay_ms(18);
     GPIOC->ODR |= (1u<<8);
@@ -22,19 +21,19 @@ void dht11_send_start_signal(void){
 uint8_t dht11_wait_for_response(void){
     TIM2->CNT = 0;
     while(GPIOC->IDR & (1u<<8)){
-        if(TIM2->CNT > 200) return 1;
+        if(TIM2->CNT > 400) return 1;
     }
 
     TIM2->CNT = 0;
     while(!(GPIOC->IDR & (1u<<8))){
-        if(TIM2->CNT > 200) return 2;
+        if(TIM2->CNT > 400) return 2;
     }
 
     //uint32_t low_time = TIM2->CNT;
 
     TIM2->CNT = 0;
     while(GPIOC->IDR & (1u<<8)){
-        if(TIM2->CNT > 200) return 3;
+        if(TIM2->CNT > 400) return 3;
     }
 
     //uint32_t high_time = TIM2->CNT;
@@ -56,7 +55,7 @@ static uint8_t dht11_read_data_bit(void){
 
     uint32_t pulse_length = TIM2->CNT;
     
-    if(pulse_length > 50){
+    if(pulse_length > 40){
         return 1;
     }
     else{
