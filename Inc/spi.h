@@ -5,5 +5,6 @@
 #include "stm32f4xx.h"
 
 void spi_init(void);
+void display_init(void);
 
 #endif

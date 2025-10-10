@@ -37,27 +37,27 @@ void spi_init(void){
     SPI1->CR1 |= (1u<<6);
 }
 
-void spi1_write(uint8_t data){
+static void spi1_write(uint8_t data){
     while(!(SPI1->SR & (1u<<1))){}
     SPI1->DR = data;
     while(SPI1->SR & (1u<<7)){}
 }
 
-void display_write_command(uint8_t cmd){
+static void display_write_command(uint8_t cmd){
     CS_LOW();
     DC_LOW();
     spi1_write(cmd);
     CS_HIGH();
 }
 
-void display_write_data(uint8_t data){
+static void display_write_data(uint8_t data){
     CS_LOW();
     DC_HIGH();
     spi1_write(data);
     CS_HIGH();
 }
 
-void display_reset(void){
+static void display_reset(void){
     RST_LOW();
     delay_ms(20);
     RST_HIGH();
