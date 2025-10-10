@@ -1,4 +1,13 @@
 #include "spi.h"
+#include "systick.h"
+
+#define CS_LOW()   (GPIOA->ODR &= ~(1u << 4))
+#define CS_HIGH()  (GPIOA->ODR |=  (1u << 4))
+#define DC_LOW()   (GPIOA->ODR &= ~(1u << 3))
+#define DC_HIGH()  (GPIOA->ODR |=  (1u << 3))
+#define RST_LOW()  (GPIOA->ODR &= ~(1u << 2))
+#define RST_HIGH() (GPIOA->ODR |=  (1u << 2))
+
 
 void spi_init(void){
     RCC->AHB1ENR |= (1u<<0);
@@ -32,4 +41,38 @@ void spi1_write(uint8_t data){
     while(!(SPI1->SR & (1u<<1))){}
     SPI1->DR = data;
     while(SPI1->SR & (1u<<7)){}
+}
+
+void display_write_command(uint8_t cmd){
+    CS_LOW();
+    DC_LOW();
+    spi1_write(cmd);
+    CS_HIGH();
+}
+
+void display_write_data(uint8_t data){
+    CS_LOW();
+    DC_HIGH();
+    spi1_write(data);
+    CS_HIGH();
+}
+
+void display_reset(void){
+    RST_LOW();
+    delay_ms(20);
+    RST_HIGH();
+    delay_ms(120);
+}
+
+void display_init(void){
+    display_reset();
+
+    display_write_command(0x11);
+    delay_ms(120);
+
+    display_write_command(0x36);
+    display_write_data(0x55);
+
+    display_write_command(0x29);
+    delay_ms(20);
 }
