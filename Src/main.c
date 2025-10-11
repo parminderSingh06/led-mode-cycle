@@ -3,14 +3,16 @@
 #include "gpio.h"
 #include "tim.h"
 #include "systick.h"
+#include "spi.h"
 
 int main(void){
     gpio_init();
     uart_init();
     tim2_init();
-
+    spi_init();
+    display_init();
+    
     uint8_t data[5];
-
     while(1){
         dht11_send_start_signal();
         uint8_t status = dht11_wait_for_response();

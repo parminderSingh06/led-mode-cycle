@@ -57,6 +57,7 @@ set (PROJECT_SOURCES
 	Src/systick.c
 	Src/tim2.c
 	Src/uart.c
+	Src/spi.c
 	chip_headers/CMSIS/Clock/system_stm32f4xx.c
 	)
 

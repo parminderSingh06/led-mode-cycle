@@ -1,17 +1,19 @@
 #include "spi.h"
 #include "systick.h"
+#include <stdio.h>
 
 #define CS_LOW()   (GPIOA->ODR &= ~(1u << 4))
 #define CS_HIGH()  (GPIOA->ODR |=  (1u << 4))
-#define DC_LOW()   (GPIOA->ODR &= ~(1u << 3))
-#define DC_HIGH()  (GPIOA->ODR |=  (1u << 3))
-#define RST_LOW()  (GPIOA->ODR &= ~(1u << 2))
-#define RST_HIGH() (GPIOA->ODR |=  (1u << 2))
+#define RST_LOW()   (GPIOB->ODR &= ~(1u << 0))
+#define RST_HIGH()  (GPIOB->ODR |=  (1u << 0))
+#define DC_LOW()    (GPIOB->ODR &= ~(1u << 1))
+#define DC_HIGH()   (GPIOB->ODR |=  (1u << 1))
 
 
 void spi_init(void){
     RCC->AHB1ENR |= (1u<<0);
-    RCC->APB1ENR |= (1u<<12);
+    RCC->AHB1ENR |= (1u<<1);
+    RCC->APB2ENR |= (1u<<12);
 
     GPIOA->MODER &= ~(3u<<10);
     GPIOA->MODER &= ~(3u<<14);
@@ -23,8 +25,8 @@ void spi_init(void){
     GPIOA->AFR[0] |= (5u<<28);
 
     GPIOA->MODER |= (1u<<8);
-    GPIOA->MODER |= (1u<<4);
-    GPIOA->MODER |= (1u<<6);
+    GPIOB->MODER |= (1u<<0);
+    GPIOB->MODER |= (1u<<2);
 
     SPI1->CR1 = 0;
 
@@ -66,7 +68,6 @@ static void display_reset(void){
 
 void display_init(void){
     display_reset();
-
     display_write_command(0x11);
     delay_ms(120);
 
